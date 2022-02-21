@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import * as wasm from "wasm-solver";
+
 
 function App() {
+  wasm.greet();
   return (
     <div className="App">
       <header className="App-header">
