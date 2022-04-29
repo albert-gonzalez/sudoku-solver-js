@@ -12,6 +12,20 @@ export const createEmptySudoku = (): Sudoku => {
   return sudoku;
 };
 
+export const stringToCellValue = (value: string): CellValue => {
+  if (!value.length) {
+    return null;
+  }
+
+  const intValue = +value;
+
+  if (isNaN(intValue)) {
+    return null;
+  }
+
+  return Math.min(9, Math.max(1, intValue));
+};
+
 export const solveSudoku = (sudoku: Sudoku): Sudoku | null => {
   if (
     sudoku.length < SUDOKU_SIZE ||

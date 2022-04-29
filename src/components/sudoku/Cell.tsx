@@ -1,6 +1,11 @@
 import classnames from "classnames";
 import React from "react";
-import { CellValue, GROUP_SIZE, Sudoku, SUDOKU_SIZE } from "../../utils/sudoku";
+import {
+  GROUP_SIZE,
+  stringToCellValue,
+  Sudoku,
+  SUDOKU_SIZE,
+} from "../../utils/sudoku";
 
 interface CellProps {
   cellIndex: number;
@@ -14,20 +19,6 @@ const Cell = ({ cellIndex, rowIndex, values, setSudoku }: CellProps) => {
   const isLastRow = rowIndex === SUDOKU_SIZE - 1;
   const isLastInColumnGroup = cellIndex % GROUP_SIZE === GROUP_SIZE - 1;
   const isLastInRowGroup = rowIndex % GROUP_SIZE === GROUP_SIZE - 1;
-
-  const stringToCellValue = (value: string): CellValue => {
-    if (!value.length) {
-      return null;
-    }
-
-    const intValue = +value;
-
-    if (isNaN(intValue)) {
-      return null;
-    }
-
-    return Math.min(9, Math.max(1, intValue));
-  };
 
   const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!setSudoku) {
