@@ -12,7 +12,21 @@ export const createEmptySudoku = (): Sudoku => {
   return sudoku;
 };
 
-export const solveSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
+export const solveSudoku = (sudoku: Sudoku): Sudoku | null => {
+  if (
+    sudoku.length < SUDOKU_SIZE ||
+    sudoku.some((row) => row.length < SUDOKU_SIZE) ||
+    sudoku
+      .flat()
+      .some((cell) => cell != null && (isNaN(cell) || cell > 9 || cell < 1))
+  ) {
+    return null;
+  }
+
+  return solveValidSudoku(sudoku);
+};
+
+const solveValidSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
   const cellValue = sudoku[x][y];
   const newSudoku = sudoku.map((row) => [...row]);
   const nextX = (x + 1) % SUDOKU_SIZE;
@@ -28,7 +42,7 @@ export const solveSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
       }
 
       if (isChangeValid && !isLastPosition(x, y)) {
-        const solvedSudoku = solveSudoku(newSudoku, nextX, nextY);
+        const solvedSudoku = solveValidSudoku(newSudoku, nextX, nextY);
 
         if (solvedSudoku) {
           return solvedSudoku;
@@ -44,7 +58,7 @@ export const solveSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
       return sudoku;
     }
 
-    const solvedSudoku = solveSudoku(sudoku, nextX, nextY);
+    const solvedSudoku = solveValidSudoku(sudoku, nextX, nextY);
 
     if (solvedSudoku) {
       return solvedSudoku;

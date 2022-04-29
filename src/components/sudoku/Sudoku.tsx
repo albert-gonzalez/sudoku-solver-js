@@ -10,7 +10,10 @@ interface SudokuProps {
 const Sudoku = ({ sudoku, setSudoku }: SudokuProps) => {
   return (
     <div>
-      <div className="bg-white border-4 border-gray-300 rounded-lg w-auto inline-block mb-8">
+      <div
+        data-testid="sudoku"
+        className="bg-white border-4 border-gray-300 rounded-lg w-auto inline-block mb-8"
+      >
         {printRows(sudoku, setSudoku)}
       </div>
     </div>

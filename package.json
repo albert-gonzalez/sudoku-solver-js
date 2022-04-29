@@ -35,6 +35,7 @@
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.0.2",
+    "jest-each": "^28.0.2",
     "jest-resolve": "^28.0.2",
     "jest-watch-typeahead": "^1.1.0",
     "mini-css-extract-plugin": "^2.6.0",
@@ -113,12 +114,16 @@
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
+      "^.+\\.module\\.(css|sass|scss)$",
+      "createWorker.ts$"
     ],
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "createWorker$": "<rootDir>/src/pages/main/__mocks__/createWorker.js",
+      "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "moduleFileExtensions": [
       "web.js",
@@ -136,7 +141,11 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ],
-    "resetMocks": true
+    "resetMocks": true,
+    "extensionsToTreatAsEsm": [
+      ".ts",
+      ".tsx"
+    ]
   },
   "babel": {
     "presets": [
@@ -144,7 +153,6 @@
     ]
   },
   "devDependencies": {
-    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
     "jest-environment-jsdom": "^28.0.2"
   }
 }

@@ -26,7 +26,7 @@ const Cell = ({ cellIndex, rowIndex, values, setSudoku }: CellProps) => {
       return null;
     }
 
-    return Math.min(9, Math.max(0, intValue));
+    return Math.min(9, Math.max(1, intValue));
   };
 
   const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +59,7 @@ const Cell = ({ cellIndex, rowIndex, values, setSudoku }: CellProps) => {
     />
   ) : (
     <span
+      data-testid="sudokuCell"
       className={`text-black text-center align-middle ${classes} w-7 h-7 sm:w-12 sm:h-12 flex items-center justify-center text-xl`}
     >
       {values[rowIndex][cellIndex] ?? ""}

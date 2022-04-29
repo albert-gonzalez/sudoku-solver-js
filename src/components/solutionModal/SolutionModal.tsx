@@ -30,8 +30,11 @@ const SolutionModal = ({
 }: ModalProps) => {
   return (
     <ReactModal isOpen={isOpen} style={customStyles}>
-      <div className="sm:px-4 py-4 min-w-xs max-w-xs sm:max-w-xl">
-        <button
+      <div
+        data-testid="solutionModal"
+        className="sm:px-4 py-4 min-w-xs max-w-xs sm:max-w-xl"
+      >
+        <button data-testid="closeModalButton"
           className="absolute right-4 top-2"
           onClick={() => setIsOpen(false)}
         >
