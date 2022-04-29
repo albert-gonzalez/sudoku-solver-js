@@ -27,8 +27,6 @@ const Main = () => {
     }, WORKER_TIMEOUT);
 
     worker.onmessage = ({ data: solvedSudoku }) => {
-      console.log("message");
-
       clearTimeout(timeoutId);
       setSolvedSudoku(solvedSudoku);
       setIsSolving(false);
