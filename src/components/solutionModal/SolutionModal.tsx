@@ -29,12 +29,19 @@ const SolutionModal = ({
   isSolving,
 }: ModalProps) => {
   return (
-    <ReactModal isOpen={isOpen} style={customStyles}>
+    <ReactModal
+      isOpen={isOpen}
+      style={customStyles}
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      onRequestClose={() => setIsOpen(false)}
+    >
       <div
         data-testid="solutionModal"
         className="sm:px-4 py-4 min-w-xs max-w-xs sm:max-w-xl"
       >
-        <button data-testid="closeModalButton"
+        <button
+          data-testid="closeModalButton"
           className="absolute right-4 top-2"
           onClick={() => setIsOpen(false)}
         >
@@ -50,8 +57,16 @@ const renderContent = (isSolving: boolean, solvedSudoku?: SudokuType) => {
   if (isSolving) {
     return (
       <div className="flex flex-col justify-center items-center">
-        <img src={spinner} className="w-3/4 animate-spin" alt="Spinner" />
-        <p className="text-xl sm:text-3xl text-center w-64 md:w-auto">
+        <img
+          data-testid="spinner"
+          src={spinner}
+          className="w-3/4 animate-spin"
+          alt="Spinner"
+        />
+        <p
+          data-testid="solvingText"
+          className="text-xl sm:text-3xl text-center w-64 md:w-auto"
+        >
           Solving, please wait...
         </p>
       </div>
@@ -64,7 +79,10 @@ const renderContent = (isSolving: boolean, solvedSudoku?: SudokuType) => {
       <Sudoku sudoku={solvedSudoku} />
     </div>
   ) : (
-    <p className="text-xl sm:text-3xl text-center w-64 md:w-auto">
+    <p
+      data-testid="notSolvedWarning"
+      className="text-xl sm:text-3xl text-center w-64 md:w-auto"
+    >
       This sudoku does not have any possible solution
     </p>
   );
