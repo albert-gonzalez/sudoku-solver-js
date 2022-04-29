@@ -1,5 +1,5 @@
 {
-  "name": "sudoku-solver-web-assembly",
+  "name": "sudoku-solver-worker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
