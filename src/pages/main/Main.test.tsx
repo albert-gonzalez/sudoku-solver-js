@@ -41,4 +41,26 @@ describe("Main Page", () => {
 
     expect(screen.queryByTestId("solutionModal")).not.toBeInTheDocument();
   });
+
+  it("should should clear the sudoku when the clear button is clicked", async () => {
+    render(<Main />);
+
+    const input = screen.getAllByRole("textbox")[0] as HTMLInputElement;
+    const secondInput = screen.getAllByRole("textbox")[34] as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "5" } });
+    fireEvent.change(secondInput, { target: { value: "4" } });
+
+    expect(input.value).toBe("5");
+    expect(secondInput.value).toBe("4");
+
+    const clearButton = screen.getByTestId("clearButton");
+
+    fireEvent.click(clearButton);
+
+    expect(input.value).toBe("");
+    expect(secondInput.value).toBe("");
+
+    expect(screen.queryByTestId("solutionModal")).not.toBeInTheDocument();
+  });
 });

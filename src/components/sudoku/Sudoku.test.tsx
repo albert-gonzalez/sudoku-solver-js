@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import ReactModal from "react-modal";
 import { createEmptySudoku, Sudoku as SudokuType } from "../../utils/sudoku";
 import Sudoku from "./Sudoku";

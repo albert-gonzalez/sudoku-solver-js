@@ -48,10 +48,19 @@ const Main = () => {
         <form data-testid="sudokuForm" onSubmit={solve}>
           <SudokuComponent sudoku={sudoku} setSudoku={setSudoku} />
           <button
-            className="p-4 bg-emerald-900 text-white text-xl font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
+            className="p-4 mb-4 bg-emerald-900 text-white text-xl font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
             type="submit"
           >
-            SOLVE!
+            Solve!
+          </button>
+          <br></br>
+          <button
+            data-testid="clearButton"
+            className="p-4 bg-emerald-600 text-white text-xl font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
+            type="button"
+            onClick={() => setSudoku(createEmptySudoku())}
+          >
+            Clear
           </button>
         </form>
       </div>
