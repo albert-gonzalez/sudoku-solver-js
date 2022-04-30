@@ -6,7 +6,7 @@ const Header = () => {
       <div className="w-48 pr-4 font-bold block">Sudoku Solver</div>
       <div className="flex hover:bg-gray-700 cursor-pointer h-full items-center px-6">
         <img src={githubIcon} alt="Github Mark" className="w-6 mr-2" />
-        <a href="https://github.com">Github</a>
+        <a href="https://github.com/albert-gonzalez/sudoku-solver-js">Github</a>
       </div>
     </header>
   );
