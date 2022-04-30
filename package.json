@@ -2,6 +2,7 @@
   "name": "sudoku-solver-worker",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://albert-gonzalez.github.io/sudoku-solver-js",
   "dependencies": {
     "@babel/core": "^7.17.9",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
@@ -66,6 +67,8 @@
     "workbox-webpack-plugin": "^6.5.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
