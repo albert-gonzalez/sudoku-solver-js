@@ -41,6 +41,9 @@ const Cell = ({
     clearSolvedSudoku();
   };
 
+  const selectAllInputText = (e: React.FocusEvent<HTMLInputElement>) =>
+    e.target.setSelectionRange(0, e.target.value.length);
+
   const classes = classnames({
     "border-r": !isLastInColumnGroup && !isLastCell,
     "border-r-4": isLastInColumnGroup && !isLastCell,
@@ -64,6 +67,7 @@ const Cell = ({
       }
       disabled={disabled}
       onChange={changeValue}
+      onFocus={selectAllInputText}
       inputMode="numeric"
     />
   );
