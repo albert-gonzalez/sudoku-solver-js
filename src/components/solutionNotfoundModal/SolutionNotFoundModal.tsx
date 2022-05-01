@@ -1,5 +1,4 @@
 import ReactModal from "react-modal";
-import { Sudoku as SudokuType } from "../../utils/sudoku";
 import React from "react";
 
 const customStyles = {
@@ -18,10 +17,7 @@ interface ModalProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const SolutionNotFoundModal = ({
-  isOpen,
-  setIsOpen,
-}: ModalProps) => {
+const SolutionNotFoundModal = ({ isOpen, setIsOpen }: ModalProps) => {
   return (
     <ReactModal
       isOpen={isOpen}

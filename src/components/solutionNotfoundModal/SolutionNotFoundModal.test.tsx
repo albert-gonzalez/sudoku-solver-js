@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import ReactModal from "react-modal";
-import { createEmptySudoku } from "../../utils/sudoku";
 import SolutionNotFoundModal from "./SolutionNotFoundModal";
 
 describe("Solution Modal", () => {
@@ -10,9 +9,7 @@ describe("Solution Modal", () => {
   });
 
   it("should not show a message when is not solving and the sudoku is not provided", () => {
-    render(
-      <SolutionNotFoundModal isOpen={true} setIsOpen={() => {}} />
-    );
+    render(<SolutionNotFoundModal isOpen={true} setIsOpen={() => {}} />);
 
     expect(screen.getByTestId("notSolvedWarning")).toBeInTheDocument();
   });
@@ -30,7 +27,5 @@ describe("Solution Modal", () => {
 
 const TestSolutionModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  return (
-    <SolutionNotFoundModal isOpen={isOpen} setIsOpen={setIsOpen} />
-  );
+  return <SolutionNotFoundModal isOpen={isOpen} setIsOpen={setIsOpen} />;
 };
