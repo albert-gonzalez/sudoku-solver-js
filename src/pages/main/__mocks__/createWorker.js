@@ -1,3 +1,5 @@
+const { createEmptySudoku, solveSudoku } = require("../../../utils/sudoku");
+
 module.exports.createWorker = () => {
   return {
     onerror: jest.fn(),
@@ -5,7 +7,7 @@ module.exports.createWorker = () => {
     onmessageerror: jest.fn(),
     terminate: jest.fn(),
     postMessage: function () {
-      this.onmessage({ data: null });
+      this.onmessage({ data: solveSudoku(createEmptySudoku()) });
     },
     addEventListener: jest.fn(),
     dispatchEvent: jest.fn(),

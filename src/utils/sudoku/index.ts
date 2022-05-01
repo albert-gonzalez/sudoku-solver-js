@@ -4,12 +4,9 @@ export type CellValue = number | null;
 export type Sudoku = CellValue[][];
 
 export const createEmptySudoku = (): Sudoku => {
-  const cells = new Array(SUDOKU_SIZE);
-  cells.fill(null);
-  const sudoku = new Array(SUDOKU_SIZE);
-  sudoku.fill([...cells]);
+  const sudoku = new Array(SUDOKU_SIZE).fill(null);
 
-  return sudoku;
+  return sudoku.map(() => new Array(SUDOKU_SIZE).fill(null));
 };
 
 export const stringToCellValue = (value: string): CellValue => {

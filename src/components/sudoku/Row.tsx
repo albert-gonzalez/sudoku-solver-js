@@ -4,18 +4,42 @@ import Cell from "./Cell";
 
 interface RowProps {
   rowIndex: number;
-  values: Sudoku;
-  setSudoku?: (values: Sudoku) => void;
+  sudokuInput: Sudoku;
+  setSudokuInput: (values: Sudoku) => void;
+  solvedSudoku?: Sudoku;
+  clearSolvedSudoku: () => void;
+  disabled: boolean;
 }
 
-const Row = ({ rowIndex, values, setSudoku }: RowProps) => {
-  return <div className="flex">{printCells(rowIndex, values, setSudoku)}</div>;
+const Row = ({
+  rowIndex,
+  sudokuInput,
+  setSudokuInput,
+  solvedSudoku,
+  clearSolvedSudoku,
+  disabled
+}: RowProps) => {
+  return (
+    <div className="flex">
+      {printCells(
+        rowIndex,
+        sudokuInput,
+        clearSolvedSudoku,
+        disabled,
+        setSudokuInput,
+        solvedSudoku
+      )}
+    </div>
+  );
 };
 
 const printCells = (
   rowIndex: number,
-  values: Sudoku,
-  setSudoku?: (values: Sudoku) => void
+  sudokuInput: Sudoku,
+  clearSolvedSudoku: () => void,
+  disabled: boolean,
+  setSudokuInput: (values: Sudoku) => void,
+  solvedSudoku?: Sudoku
 ) => {
   const rows = new Array(SUDOKU_SIZE);
   rows.fill(0);
@@ -27,8 +51,11 @@ const printCells = (
           key={index}
           rowIndex={rowIndex}
           cellIndex={index}
-          values={values}
-          setSudoku={setSudoku}
+          sudokuInput={sudokuInput}
+          setSudokuInput={setSudokuInput}
+          solvedSudoku={solvedSudoku}
+          clearSolvedSudoku={clearSolvedSudoku}
+          disabled={disabled}
         />
       ))}
     </React.Fragment>

@@ -1,39 +1,59 @@
 import React, { FormEvent, useState } from "react";
-import SolutionModal from "../../components/solutionModal/SolutionModal";
+import SolutionNotFoundModal from "../../components/solutionNotfoundModal/SolutionNotFoundModal";
 import SudokuComponent from "../../components/sudoku/Sudoku";
 import { Sudoku, createEmptySudoku } from "../../utils/sudoku";
 import { createWorker } from "./createWorker";
+import spinner from "../../assets/spinner.svg";
 
-const WORKER_TIMEOUT = 15000;
+const WORKER_TIMEOUT = 10000;
 
 const Main = () => {
-  const [sudoku, setSudoku] = useState(createEmptySudoku());
+  const [sudokuInput, setSudokuInput] = useState(createEmptySudoku());
   const [solvedSudoku, setSolvedSudoku] = useState<Sudoku | undefined>();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isSolving, setIsSolving] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
   const solve = (event: FormEvent) => {
     event.preventDefault();
     setIsSolving(true);
-    setIsOpen(true);
 
     const worker = createWorker();
 
     const timeoutId = setTimeout(() => {
       worker.terminate();
+      setIsOpen(true);
       setIsSolving(false);
       setSolvedSudoku(undefined);
     }, WORKER_TIMEOUT);
 
+    setTimeoutId(timeoutId);
+
     worker.onmessage = ({ data: solvedSudoku }) => {
-      clearTimeout(timeoutId);
+      clearCurrentTimeout(timeoutId);
       setSolvedSudoku(solvedSudoku);
       setIsSolving(false);
       worker.terminate();
     };
 
-    worker.postMessage(sudoku);
+    worker.postMessage(sudokuInput);
   };
+
+  const clearCurrentTimeout = (privateTimeoutId?: NodeJS.Timeout) => {
+    privateTimeoutId && clearTimeout(privateTimeoutId);
+    timeoutId && clearTimeout(timeoutId);
+
+    setTimeoutId(undefined);
+  };
+
+  const clear = () => {
+    clearCurrentTimeout();
+    setIsSolving(false);
+    setSudokuInput(createEmptySudoku());
+    clearSolvedSudoku();
+  };
+
+  const clearSolvedSudoku = () => setSolvedSudoku(undefined);
 
   return (
     <React.Fragment>
@@ -46,30 +66,41 @@ const Main = () => {
           solve it instantly!
         </p>
         <form data-testid="sudokuForm" onSubmit={solve}>
-          <SudokuComponent sudoku={sudoku} setSudoku={setSudoku} />
+          <SudokuComponent
+            sudokuInput={sudokuInput}
+            setSudokuInput={setSudokuInput}
+            solvedSudoku={solvedSudoku}
+            clearSolvedSudoku={clearSolvedSudoku}
+            disabled={isSolving}
+          />
           <button
-            className="p-4 mb-4 bg-emerald-900 text-white text-xl font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
+            className="p-4 mb-4 bg-emerald-900 text-white text-xl text-center font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
             type="submit"
+            disabled={isSolving}
           >
-            Solve!
+            {isSolving ? (
+              <img
+                data-testid="spinner"
+                src={spinner}
+                className="w-6 animate-spin inline"
+                alt="Spinner"
+              />
+            ) : (
+              "Solve!"
+            )}
           </button>
           <br></br>
           <button
             data-testid="clearButton"
             className="p-4 bg-emerald-600 text-white text-xl font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
             type="button"
-            onClick={() => setSudoku(createEmptySudoku())}
+            onClick={clear}
           >
             Clear
           </button>
         </form>
       </div>
-      <SolutionModal
-        setIsOpen={setIsOpen}
-        isOpen={modalIsOpen}
-        isSolving={isSolving}
-        solvedSudoku={solvedSudoku}
-      />
+      <SolutionNotFoundModal setIsOpen={setIsOpen} isOpen={modalIsOpen} />
     </React.Fragment>
   );
 };

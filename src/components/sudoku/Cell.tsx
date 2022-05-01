@@ -10,24 +10,35 @@ import {
 interface CellProps {
   cellIndex: number;
   rowIndex: number;
-  values: Sudoku;
-  setSudoku?: (values: Sudoku) => void;
+  sudokuInput: Sudoku;
+  setSudokuInput: (sudoku: Sudoku) => void;
+  solvedSudoku?: Sudoku;
+  clearSolvedSudoku: () => void;
+  disabled: boolean;
 }
 
-const Cell = ({ cellIndex, rowIndex, values, setSudoku }: CellProps) => {
+const Cell = ({
+  cellIndex,
+  rowIndex,
+  sudokuInput,
+  setSudokuInput,
+  solvedSudoku,
+  clearSolvedSudoku,
+  disabled,
+}: CellProps) => {
   const isLastCell = cellIndex === SUDOKU_SIZE - 1;
   const isLastRow = rowIndex === SUDOKU_SIZE - 1;
   const isLastInColumnGroup = cellIndex % GROUP_SIZE === GROUP_SIZE - 1;
   const isLastInRowGroup = rowIndex % GROUP_SIZE === GROUP_SIZE - 1;
+  const isInputCell =
+    sudokuInput[rowIndex][cellIndex] && solvedSudoku?.[rowIndex][cellIndex];
 
   const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!setSudoku) {
-      return;
-    }
-    const newValues = values.map((row) => [...row]);
+    const newValues = sudokuInput.map((row) => [...row]);
     newValues[rowIndex][cellIndex] = stringToCellValue(e.target.value);
 
-    setSudoku(newValues);
+    setSudokuInput(newValues);
+    clearSolvedSudoku();
   };
 
   const classes = classnames({
@@ -35,26 +46,25 @@ const Cell = ({ cellIndex, rowIndex, values, setSudoku }: CellProps) => {
     "border-r-4": isLastInColumnGroup && !isLastCell,
     "border-b": !isLastInRowGroup && !isLastRow,
     "border-b-4": isLastInRowGroup && !isLastRow,
+    "bg-emerald-700 text-white font-medium": isInputCell,
+    "bg-gray-100 text-gray-400": disabled,
   });
 
-  return setSudoku ? (
+  return (
     <input
       type="text"
       maxLength={1}
       max={9}
       min={0}
-      className={`text-black text-center ${classes} w-8 h-8 text-2xl sm:w-12 sm:h-12`}
-      value={values[rowIndex][cellIndex] ?? ""}
-      disabled={!setSudoku}
+      className={`text-center ${classes} w-8 h-8 text-2xl sm:w-12 sm:h-12 transition-colors duration-700 ease-in-out`}
+      value={
+        sudokuInput[rowIndex][cellIndex] ??
+        solvedSudoku?.[rowIndex][cellIndex] ??
+        ""
+      }
+      disabled={disabled}
       onChange={changeValue}
     />
-  ) : (
-    <span
-      data-testid="sudokuCell"
-      className={`text-black text-center align-middle ${classes} w-7 h-7 sm:w-12 sm:h-12 flex items-center justify-center text-xl`}
-    >
-      {values[rowIndex][cellIndex] ?? ""}
-    </span>
   );
 };
 

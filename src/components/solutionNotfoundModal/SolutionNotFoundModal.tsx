@@ -1,8 +1,6 @@
 import ReactModal from "react-modal";
-import Sudoku from "../sudoku/Sudoku";
 import { Sudoku as SudokuType } from "../../utils/sudoku";
 import React from "react";
-import spinner from "../../assets/spinner.svg";
 
 const customStyles = {
   content: {
@@ -18,15 +16,11 @@ const customStyles = {
 interface ModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  isSolving: boolean;
-  solvedSudoku?: SudokuType;
 }
 
-const SolutionModal = ({
+const SolutionNotFoundModal = ({
   isOpen,
   setIsOpen,
-  solvedSudoku,
-  isSolving,
 }: ModalProps) => {
   return (
     <ReactModal
@@ -37,7 +31,7 @@ const SolutionModal = ({
       onRequestClose={() => setIsOpen(false)}
     >
       <div
-        data-testid="solutionModal"
+        data-testid="solutionNotFoundModal"
         className="sm:px-4 py-4 min-w-xs max-w-xs sm:max-w-xl"
       >
         <button
@@ -47,38 +41,14 @@ const SolutionModal = ({
         >
           X
         </button>
-        {renderContent(isSolving, solvedSudoku)}
+        {renderContent()}
       </div>
     </ReactModal>
   );
 };
 
-const renderContent = (isSolving: boolean, solvedSudoku?: SudokuType) => {
-  if (isSolving) {
-    return (
-      <div className="flex flex-col justify-center items-center">
-        <img
-          data-testid="spinner"
-          src={spinner}
-          className="w-3/4 animate-spin"
-          alt="Spinner"
-        />
-        <p
-          data-testid="solvingText"
-          className="text-xl sm:text-3xl text-center w-64 md:w-auto"
-        >
-          Solving, please wait...
-        </p>
-      </div>
-    );
-  }
-
-  return solvedSudoku ? (
-    <div>
-      <h2 className="text-3xl text-center p-3">Sudoku Solved!</h2>
-      <Sudoku sudoku={solvedSudoku} />
-    </div>
-  ) : (
+const renderContent = () => {
+  return (
     <p
       data-testid="notSolvedWarning"
       className="text-xl sm:text-3xl text-center w-64 md:w-auto"
@@ -88,4 +58,4 @@ const renderContent = (isSolving: boolean, solvedSudoku?: SudokuType) => {
   );
 };
 
-export default SolutionModal;
+export default SolutionNotFoundModal;

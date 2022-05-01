@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Main from "./Main";
 import ReactModal from "react-modal";
 
@@ -13,7 +13,7 @@ describe("Main Page", () => {
     expect(mainPage).toContainHTML("Write your sudoku");
   });
 
-  it("should try to solve the sudoku and a modal with the result when the form is submitted", async () => {
+  it("should try to solve the sudoku and when the form is submitted", async () => {
     const { baseElement } = render(<Main />);
     ReactModal.setAppElement(baseElement);
 
@@ -21,25 +21,45 @@ describe("Main Page", () => {
 
     fireEvent.submit(form);
 
-    const modal = await screen.findByTestId("solutionModal");
+    const inputs: HTMLInputElement[] = await screen.findAllByRole("textbox");
 
-    expect(modal).toBeInTheDocument();
-    expect(modal).toContainHTML("any possible solution");
+    const allInputsHaveAValue = inputs.every((input) => input.value);
+    expect(allInputsHaveAValue).toBeTruthy();
   });
 
-  it("should should close the modal when the close button is clicked", async () => {
+  it("should change the background of a cell if has a value when the sudoku is solved", async () => {
     const { baseElement } = render(<Main />);
     ReactModal.setAppElement(baseElement);
 
     const form = screen.getByTestId("sudokuForm");
+    const inputs: HTMLInputElement[] = screen.getAllByRole("textbox");
+    const inputToFill = inputs[0];
+    const inputToSolve = inputs[1];
+    fireEvent.change(inputToFill, { target: { value: "5" } });
 
     fireEvent.submit(form);
 
-    const closeModalButton = screen.getByTestId("closeModalButton");
+    expect(inputToFill.classList.toString()).toContain("bg");
+    expect(inputToSolve.classList.toString()).not.toContain("bg");
+  });
 
-    fireEvent.click(closeModalButton);
+  it("should clear the solved sudoku but no the input value if a input is changed", async () => {
+    const { baseElement } = render(<Main />);
+    ReactModal.setAppElement(baseElement);
 
-    expect(screen.queryByTestId("solutionModal")).not.toBeInTheDocument();
+    const form = screen.getByTestId("sudokuForm");
+    const inputs: HTMLInputElement[] = screen.getAllByRole("textbox");
+    const inputToChange = inputs[0];
+    const inputToSolve = inputs[1];
+
+    fireEvent.submit(form);
+
+    expect(inputToSolve.value).not.toBe("");
+
+    fireEvent.change(inputToChange, { target: { value: "5" } });
+
+    expect(inputToSolve.value).toBe("");
+    expect(inputToChange.value).toBe("5");
   });
 
   it("should should clear the sudoku when the clear button is clicked", async () => {
@@ -61,6 +81,8 @@ describe("Main Page", () => {
     expect(input.value).toBe("");
     expect(secondInput.value).toBe("");
 
-    expect(screen.queryByTestId("solutionModal")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("solutionNotFoundModal")
+    ).not.toBeInTheDocument();
   });
 });
