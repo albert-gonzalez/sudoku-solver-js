@@ -64,6 +64,7 @@ const Cell = ({
       }
       disabled={disabled}
       onChange={changeValue}
+      inputMode="numeric"
     />
   );
 };
