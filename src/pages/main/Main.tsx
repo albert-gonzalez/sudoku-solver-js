@@ -20,20 +20,21 @@ const Main = () => {
 
     const worker = createWorker();
 
-    const timeoutId = setTimeout(() => {
-      worker.terminate();
+    const notFoundTimeoutId = setTimeout(() => {
       setIsOpen(true);
       setIsSolving(false);
       setSolvedSudoku(undefined);
     }, WORKER_TIMEOUT);
 
-    setTimeoutId(timeoutId);
+    setTimeout(() => worker.terminate(), WORKER_TIMEOUT);
+
+    setTimeoutId(notFoundTimeoutId);
 
     worker.onmessage = ({ data: solvedSudoku }) => {
-      clearCurrentTimeout(timeoutId);
+      worker.terminate();
+      clearCurrentTimeout(notFoundTimeoutId);
       setSolvedSudoku(solvedSudoku);
       setIsSolving(false);
-      worker.terminate();
     };
 
     worker.postMessage(sudokuInput);
@@ -74,6 +75,7 @@ const Main = () => {
             disabled={isSolving}
           />
           <button
+            data-testid="submitButton"
             className="p-4 mb-4 bg-emerald-900 text-white text-xl text-center font-medium w-64 rounded shadow-md shadow-gray-500 hover:opacity-90"
             type="submit"
             disabled={isSolving}

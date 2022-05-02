@@ -119,15 +119,14 @@
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$",
-      "createWorker.ts$"
+      "^.+\\.module\\.(css|sass|scss)$"
     ],
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "createWorker$": "<rootDir>/src/pages/main/__mocks__/createWorker.js",
+      "createWorker$": "<rootDir>/src/pages/main/__mocks__/emptyCreateWorker.js",
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "moduleFileExtensions": [

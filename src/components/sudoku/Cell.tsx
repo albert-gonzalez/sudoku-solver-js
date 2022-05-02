@@ -59,7 +59,7 @@ const Cell = ({
       maxLength={1}
       max={9}
       min={0}
-      className={`text-center ${classes} w-8 h-8 text-2xl sm:w-12 sm:h-12 transition-colors duration-700 ease-in-out`}
+      className={`text-center ${classes} w-8 h-8 text-xl sm:w-12 sm:h-12 sm:text-2xl transition-colors duration-700 ease-in-out`}
       value={
         sudokuInput[rowIndex][cellIndex] ??
         solvedSudoku?.[rowIndex][cellIndex] ??
