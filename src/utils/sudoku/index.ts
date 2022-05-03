@@ -46,13 +46,11 @@ const solveValidSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
   if (!cellValue) {
     for (let i = 1; i <= SUDOKU_SIZE; i++) {
       newSudoku[x][y] = i;
-      const isChangeValid = isPositionValid(newSudoku, x, y);
+      if (isPositionValid(newSudoku, x, y)) {
+        if (isLastPosition(x, y)) {
+          return newSudoku;
+        }
 
-      if (isChangeValid && isLastPosition(x, y)) {
-        return newSudoku;
-      }
-
-      if (isChangeValid && !isLastPosition(x, y)) {
         const solvedSudoku = solveValidSudoku(newSudoku, nextX, nextY);
 
         if (solvedSudoku) {
@@ -69,11 +67,7 @@ const solveValidSudoku = (sudoku: Sudoku, x = 0, y = 0): Sudoku | null => {
       return sudoku;
     }
 
-    const solvedSudoku = solveValidSudoku(sudoku, nextX, nextY);
-
-    if (solvedSudoku) {
-      return solvedSudoku;
-    }
+    return solveValidSudoku(sudoku, nextX, nextY);
   }
 
   return null;
