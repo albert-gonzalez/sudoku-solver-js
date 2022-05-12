@@ -3,7 +3,7 @@ import { useState } from "react";
 import ReactModal from "react-modal";
 import SolutionNotFoundModal from "./SolutionNotFoundModal";
 
-describe("Solution Modal", () => {
+describe("Solution Not Found Modal", () => {
   beforeEach(() => {
     ReactModal.setAppElement(document.documentElement);
   });
