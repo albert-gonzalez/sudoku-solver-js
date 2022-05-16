@@ -32,7 +32,7 @@ const Main = () => {
 
     worker.onmessage = ({ data: solvedSudoku }) => {
       worker.terminate();
-      clearCurrentTimeout(notFoundTimeoutId);
+      abortTimeout(notFoundTimeoutId);
       setSolvedSudoku(solvedSudoku);
       setIsSolving(false);
     };
@@ -40,15 +40,14 @@ const Main = () => {
     worker.postMessage(sudokuInput);
   };
 
-  const clearCurrentTimeout = (privateTimeoutId?: NodeJS.Timeout) => {
-    privateTimeoutId && clearTimeout(privateTimeoutId);
+  const abortTimeout = (timeoutId?: NodeJS.Timeout) => {
     timeoutId && clearTimeout(timeoutId);
 
     setTimeoutId(undefined);
   };
 
   const clear = () => {
-    clearCurrentTimeout();
+    abortTimeout(timeoutId);
     setIsSolving(false);
     setSudokuInput(createEmptySudoku());
     clearSolvedSudoku();
