@@ -23,7 +23,7 @@ const Main = () => {
     const notFoundTimeoutId = setTimeout(() => {
       setIsOpen(true);
       setIsSolving(false);
-      setSolvedSudoku(undefined);
+      clearSolvedSudoku();
     }, WORKER_TIMEOUT);
 
     setTimeout(() => worker.terminate(), WORKER_TIMEOUT);
