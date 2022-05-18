@@ -55,6 +55,7 @@ const Cell = ({
 
   return (
     <input
+     title={`Cell ${rowIndex + 1} ${cellIndex + 1}`}
       type="text"
       maxLength={1}
       max={9}
